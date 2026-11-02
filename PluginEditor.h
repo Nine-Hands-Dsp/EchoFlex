@@ -120,6 +120,8 @@ private:
     void addLearnItems (juce::PopupMenu&, const juce::Array<int>& learnItems);
     bool handleLearnResult (int r);
     void setScaledHeight (int h);
+    static constexpr int numSizes = 3;          // 60 % (defaut d'origine) / 75 % / 100 %
+    static int sizeHeight (int idx);
     void attachVolumeKnob (bool toAge);
     void setAgeEdit (bool on);
     void toggleAge();

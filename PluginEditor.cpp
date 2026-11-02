@@ -1,5 +1,6 @@
 #include "PluginEditor.h"
 #include "BinaryData.h"
+#include "WigaWindowSize.h"
 
 using namespace juce;
 
@@ -258,6 +259,8 @@ EchoflexAudioProcessorEditor::EchoflexAudioProcessorEditor (EchoflexAudioProcess
         cons->setFixedAspectRatio ((double) baseW / (double) baseH);
     setOpaque (true);                      // anti-gel : l'hote ne redessine jamais ce qui est derriere la fenetre
     setSize (defaultW, defaultH);
+    // taille des nouvelles fenetres : celle choisie dans le menu « Default size (new windows) »
+    setScaledHeight (sizeHeight (WigaWindowSize::defaultIndex (JucePlugin_Name, numSizes)));
     rebuildCaches();
 
     lastTapCount = proc.tapCounter.load();
@@ -337,6 +340,12 @@ void EchoflexAudioProcessorEditor::stepSyncDivision (int delta)
 void EchoflexAudioProcessorEditor::showStatus()
 {
     statusUntil = Time::getMillisecondCounterHiRes() + 2500.0;
+}
+
+int EchoflexAudioProcessorEditor::sizeHeight (int idx)
+{
+    const int h[numSizes] = { (int) defaultH, roundToInt (baseH * 0.75f), (int) baseH };
+    return h[jlimit (0, numSizes - 1, idx)];
 }
 
 void EchoflexAudioProcessorEditor::setScaledHeight (int h)
@@ -850,12 +859,20 @@ void EchoflexAudioProcessorEditor::showContextMenu (Array<int> learnItems)
     PopupMenu menu;
     addLearnItems (menu, learnItems);
 
-    PopupMenu sizes;
-    const int defaultW = roundToInt ((float) defaultH * (float) baseW / (float) baseH);
-    sizes.addItem (1, "60 % (default)", true, getHeight() == defaultH);
-    sizes.addItem (2, "75 %",  true, getHeight() == roundToInt (baseH * 0.75f));
-    sizes.addItem (3, "100 %", true, getHeight() == baseH);
-    menu.addSubMenu ("Window size", sizes);
+    {
+        // Plugin size : taille de cette fenetre + taille par defaut des nouvelles fenetres (comme Octopus)
+        const char* names[numSizes] = { "60 %", "75 %", "100 %" };
+        const int def = WigaWindowSize::defaultIndex (JucePlugin_Name, numSizes);
+        PopupMenu sizes, defSizes;
+        for (int i = 0; i < numSizes; ++i)
+        {
+            sizes.addItem (1 + i, String (names[i]) + (i == def ? "  (default)" : ""), true, std::abs (getHeight() - sizeHeight (i)) <= 2);
+            defSizes.addItem (20 + i, names[i], true, i == def);
+        }
+        sizes.addSeparator();
+        sizes.addSubMenu ("Default size (new windows)", defSizes);
+        menu.addSubMenu ("Plugin size", sizes);
+    }
     menu.addSeparator();
 
     PopupMenu factory;
@@ -916,7 +933,7 @@ void EchoflexAudioProcessorEditor::showContextMenu (Array<int> learnItems)
     menu.addSubMenu ("MIDI", midi);
 
     menu.addSeparator();
-    menu.addItem (999, "Echoflex delay v1.4.1 - STUDIO WIGA", false);
+    menu.addItem (999, "Echoflex delay v1.5.0 - STUDIO WIGA", false);
 
     menu.showMenuAsync (PopupMenu::Options().withTargetComponent (this),
         [safe = Component::SafePointer<EchoflexAudioProcessorEditor> (this)] (int r)
@@ -926,9 +943,12 @@ void EchoflexAudioProcessorEditor::showContextMenu (Array<int> learnItems)
 
             auto& ed = *safe;
             if (ed.handleLearnResult (r)) return;
-            if      (r == 1) ed.setScaledHeight (defaultH);
-            else if (r == 2) ed.setScaledHeight (roundToInt (baseH * 0.75f));
-            else if (r == 3) ed.setScaledHeight (baseH);
+            if      (r >= 1 && r < 1 + numSizes) ed.setScaledHeight (ed.sizeHeight (r - 1));
+            else if (r >= 20 && r < 20 + numSizes)
+            {
+                WigaWindowSize::setDefaultIndex (JucePlugin_Name, r - 20);   // toutes les nouvelles fenetres de ce plugin
+                ed.setScaledHeight (ed.sizeHeight (r - 20));                // et cette fenetre tout de suite
+            }
             else if (r == 40 || r == 41) ed.setParamValue ("bypassMode", r == 41 ? 1.0f : 0.0f);
             else if (r == 42 || r == 43) ed.setParamValue ("mix",        r == 43 ? 1.0f : 0.0f);
             else if (r == 44 || r == 45) ed.setParamValue ("channels",   r == 45 ? 1.0f : 0.0f);

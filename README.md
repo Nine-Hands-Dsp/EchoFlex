@@ -33,7 +33,7 @@ Sources : manuel Dunlop EP103 (jimdunlop.com), fiches zZounds et Chicago Music E
 ## Interface
 
 - Fenêtre ouverte par défaut à **493 px de haut** (391 × 493), impossible de la réduire en dessous, proportions bloquées, jusqu'à 150 % : **mêmes réglages de taille que Wack'd**.
-- **Clic droit** : taille (Default / 75 % / 100 %), presets d'usine, presets utilisateur 1 à 9 (charger / sauvegarder), AGE, source du temps de retard (potard / tap / synchro tempo du DAW), réglages de démarrage, table MIDI.
+- **Clic droit** : *Plugin size* (60 % / 75 % / 100 % pour cette fenêtre, et *Default size (new windows)* pour choisir la taille d'ouverture de toutes les nouvelles fenêtres d'Echoflex, réglage enregistré dans `Studio Wiga/Echoflex/settings.xml` du dossier de données de l'utilisateur, comme Octopus), presets d'usine, presets utilisateur 1 à 9 (charger / sauvegarder), AGE, source du temps de retard (potard / tap / synchro tempo du DAW), réglages de démarrage, table MIDI.
 - **Potards** (v1.1) : reconstruits d'après la photo du visuel, 128 positions pré-calculées. L'éclairage du chapeau et de la jupe est relevé sur la photo et reste fixe (lumière en haut à gauche) ; le motif des 47 dents tourne sous cette lumière ; l'aileron (facette éclairée côté lumière, ombre portée sur le chapeau) et le trait blanc sont redessinés à chaque angle.
 - **LED rouge** (effet actif) dans la bague chromée de la photo : allumage/extinction en fondu, léger scintillement, la lueur respire avec le niveau des répétitions. **LED AGE** ambre : fondu, clignote pendant le réglage AGE et se remplit pendant l'appui long.
 - **Ligne d'état** sous la LED : elle n'apparaît que lorsqu'un réglage bouge (temps réel en ms, Sustain, Volume, état AGE, tap / synchro, preset, MIDI), reste 2,5 s puis s'efface en fondu.
@@ -81,3 +81,4 @@ Comme les autres plugins Studio Wiga : **avant** Genome. Le mode Mono (par défa
 - Notice : `docs/Echoflex_Manual_EN-FR_v1.4.1.pdf` (anglais puis français, à jour pour la v1.4.1).
 
 - v1.4.1 : menu de taille de fenêtre : « 60 % (default) », 75 %, 100 % (plus de taille en pixels)
+- v1.5.0 : clic droit > *Plugin size* > *Default size (new windows)* : taille par défaut des nouvelles fenêtres au choix (60 / 75 / 100 %), comme dans Octopus
