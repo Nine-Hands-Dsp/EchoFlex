@@ -24,7 +24,7 @@ Usage personnel. Visuel photo ECHOFLEX mis à l'échelle du projet (1520 × 1916
 | AGE au maximum | Plus sombre, plus de saturation de bande, plus de modulation (qui paraît aléatoire), « fatigue » de la bande | Filtres fermés jusqu'à ~2,5 kHz, saturation, wow ×15, dérive aléatoire, pertes de niveau, léger souffle qui suit l'écho |
 | Préampli | L'écho reçoit la coloration du préampli Echoplex EP101 ; le son direct est intact | Grave +1,5 dB / présence +2,5 dB / saturation douce sur l'écho uniquement |
 | Moteur de bande | Tourner DELAY fait glisser la hauteur des répétitions | Inertie du moteur reproduite (~110 ms) |
-| TAP | Prise pour MXR M199, jusqu'à 4 s | Clic sur la prise **TAP** (à gauche, en bas) ou CC 25 ; moyenne des 3 derniers intervalles ; tourner DELAY reprend la main |
+| TAP | Prise pour MXR M199, jusqu'à 4 s | Clic sur la prise **TAP** (à gauche, en bas) ou CC assigné par MIDI Learn ; moyenne des 3 derniers intervalles ; tourner DELAY reprend la main |
 | Footswitch / LED | True bypass relais, LED rouge | Clic sur le footswitch, LED rouge animée |
 | Mode de démarrage | Trails bypass, 100 % wet, mono/stéréo (switch interne) | Clic droit > **Startup settings** |
 
@@ -44,16 +44,10 @@ Sources : manuel Dunlop EP103 (jimdunlop.com), fiches zZounds et Chicago Music E
 
 | Message | Fonction |
 |---|---|
-| CC 20 / 21 / 22 | Delay / Sustain / Volume |
-| CC 23 | Quantité d'AGE |
-| CC 24 | AGE (0-63 son clair, 64-127 AGE) |
-| CC 25 | TAP (chaque appui) |
-| CC 26 | Footswitch (≥ 64 ON, < 64 OFF) |
-| CC 27 | Footswitch bascule (chaque appui) |
-| CC 28 | SYNC : 64-127 delay calé sur le tempo du DAW, 0-63 potard DELAY |
+| CC (MIDI Learn) | Aucun CC assigné par défaut : clic droit > MIDI > Learn (Delay, Sustain, Volume, quantité d'AGE, AGE 64+ ON, TAP à chaque appui, Footswitch ≥ 64 ON, Footswitch bascule, SYNC 64+ = tempo du DAW) |
 | Program Change 1-10 | Presets d'usine |
 
-Numéros par défaut ci-dessus ; chaque commande peut être réassignée par **MIDI Learn** (clic droit sur une commande ou menu MIDI). Tous les paramètres sont aussi automatisables dans le DAW.
+Aucun CC assigné par défaut : clic droit > MIDI > Learn (ou clic droit sur une commande). « Clear all MIDI assignments » efface toutes les assignations. Tous les paramètres sont aussi automatisables dans le DAW.
 
 ## Presets d'usine
 
@@ -82,3 +76,4 @@ Comme les autres plugins Studio Wiga : **avant** Genome. Le mode Mono (par défa
 
 - v1.4.1 : menu de taille de fenêtre : « 60 % (default) », 75 %, 100 % (plus de taille en pixels)
 - v1.5.0 : clic droit > *Plugin size* > *Default size (new windows)* : taille par défaut des nouvelles fenêtres au choix (60 / 75 / 100 %), comme dans Octopus
+- v1.5.1 : plus aucun CC MIDI assigné par défaut (tout passe par le MIDI Learn)

@@ -87,12 +87,12 @@ EchoflexAudioProcessor::EchoflexAudioProcessor()
         pendingValue[i].store (0.0f);
         pendingSet[i].store (false);
     }
-    resetMidiDefaults();
+    clearMidiMap();
     startTimerHz (60);
 }
 
 //==============================================================================
-// MIDI Learn : commandes apprenables (CC par defaut = numeros fixes des versions precedentes)
+// MIDI Learn : commandes apprenables (aucun CC par defaut ; legacyCC = anciens numeros fixes)
 //==============================================================================
 const EchoflexAudioProcessor::LearnInfo& EchoflexAudioProcessor::learnInfo (int index)
 {
@@ -111,10 +111,10 @@ const EchoflexAudioProcessor::LearnInfo& EchoflexAudioProcessor::learnInfo (int 
     return table[juce::jlimit (0, numLearn - 1, index)];
 }
 
-void EchoflexAudioProcessor::resetMidiDefaults()
+void EchoflexAudioProcessor::clearMidiMap()
 {
     for (int i = 0; i < numLearn; ++i)
-        ccNum[i].store (learnInfo (i).defaultCC);
+        ccNum[i].store (-1);
 }
 
 EchoflexAudioProcessor::~EchoflexAudioProcessor()
@@ -722,8 +722,17 @@ void EchoflexAudioProcessor::setStateInformation (const void* data, int sizeInBy
         {
             auto state = juce::ValueTree::fromXml (*xml);
             currentPreset = (int) state.getProperty ("currentPreset", 0);
-            for (int i = 0; i < numLearn; ++i)         // ancien projet : numeros par defaut
-                ccNum[i].store (juce::jlimit (-1, 119, (int) state.getProperty (learnInfo (i).key, learnInfo (i).defaultCC)));
+            // assignations MIDI Learn : aucune par defaut. Un ancien projet dont la table est
+            // exactement l'ancienne table d'usine (20 a 28, ou proprietes absentes) est vide.
+            int loaded[numLearn];
+            bool factory = true;
+            for (int i = 0; i < numLearn; ++i)
+            {
+                loaded[i] = juce::jlimit (-1, 119, (int) state.getProperty (learnInfo (i).key, learnInfo (i).legacyCC));
+                if (loaded[i] != learnInfo (i).legacyCC) factory = false;
+            }
+            for (int i = 0; i < numLearn; ++i)
+                ccNum[i].store (factory ? -1 : loaded[i]);
             apvts.replaceState (state);
         }
     }

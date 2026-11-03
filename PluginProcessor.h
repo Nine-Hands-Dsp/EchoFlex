@@ -195,15 +195,17 @@ public:
         ccSync       = 28  // >= 64 : delai synchronise sur le tempo du DAW, < 64 : potard
     };
 
-    // MIDI Learn : une entree par commande de la facade (CC par defaut = table MidiMap ci-dessus)
+    // MIDI Learn : une entree par commande de la facade. v1.5.1 : aucun CC assigne par defaut ;
+    // legacyCC = ancienne table d'usine (MidiMap ci-dessus), servant uniquement a reconnaitre
+    // (et vider) une table jamais modifiee dans un ancien projet
     enum LearnIndex { lDelay, lSustain, lVolume, lAge, lAgeOn, lTap, lFoot, lFootToggle, lSync, numLearn };
     enum LearnKind  { kindKnob, kindToggle, kindPress };   // continu / bascule (>= 64 ON) / appui (passage >= 64)
-    struct LearnInfo { const char* key; const char* name; int defaultCC; int kind; };
+    struct LearnInfo { const char* key; const char* name; int legacyCC; int kind; };
     static const LearnInfo& learnInfo (int index);
     std::atomic<int> ccNum[numLearn];                // numero de CC assigne (-1 = non assigne)
     std::atomic<int> learnTarget { -1 };             // commande en attente d'un CC (-1 = aucun learn)
     std::atomic<int> lastLearned { -1 };             // pour l'affichage (lu et remis a -1 par l'interface)
-    void resetMidiDefaults();
+    void clearMidiMap();                             // efface toutes les assignations (-1)
 
 private:
     void handleMidi (juce::MidiBuffer& midi);

@@ -805,7 +805,7 @@ void EchoflexAudioProcessorEditor::showSyncMenu()
 }
 
 //==============================================================================
-// MIDI Learn (menus) : 1000 + n = learn, 1100 = annuler, 1101 = numeros par defaut, 1200 + n = effacer
+// MIDI Learn (menus) : 1000 + n = learn, 1100 = annuler, 1101 = tout effacer, 1200 + n = effacer
 //==============================================================================
 static String ccLabel (int cc)
 {
@@ -836,8 +836,8 @@ bool EchoflexAudioProcessorEditor::handleLearnResult (int r)
     else if (r == 1101)
     {
         proc.learnTarget.store (-1);
-        proc.resetMidiDefaults();
-        learnMsg = "MIDI: default CC 20 - 28";
+        proc.clearMidiMap();
+        learnMsg = "MIDI: all assignments cleared";
         learnMsgUntil = Time::getMillisecondCounterHiRes() + 2000.0;
     }
     else if (r >= 1200 && r < 1200 + P::numLearn)
@@ -927,13 +927,13 @@ void EchoflexAudioProcessorEditor::showContextMenu (Array<int> learnItems)
                                   + " (" + ccLabel (proc.ccNum[i].load()) + ")", true, proc.learnTarget.load() == i);
     if (proc.learnTarget.load() >= 0)
         midi.addItem (1100, "Cancel MIDI learn");
-    midi.addItem (1101, "Reset MIDI to defaults (CC 20 - 28)");
+    midi.addItem (1101, "Clear all MIDI assignments");
     midi.addSeparator();
     midi.addItem (908, "Program Change 1-10  Factory presets",      false);
     menu.addSubMenu ("MIDI", midi);
 
     menu.addSeparator();
-    menu.addItem (999, "Echoflex delay v1.5.0 - STUDIO WIGA", false);
+    menu.addItem (999, "Echoflex delay v1.5.1 - STUDIO WIGA", false);
 
     menu.showMenuAsync (PopupMenu::Options().withTargetComponent (this),
         [safe = Component::SafePointer<EchoflexAudioProcessorEditor> (this)] (int r)
