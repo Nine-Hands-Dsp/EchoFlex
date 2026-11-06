@@ -465,7 +465,7 @@ String EchoflexAudioProcessorEditor::buildPresetLine() const
 // Avec certains pilotes (Intel notamment) la fenetre du plugin cesse de se rafraichir alors que
 // le DAW continue de tourner. Le moteur logiciel est stable partout et largement assez rapide ici.
 //
-// Anti-gel v2 (Studio Wiga) :
+// Anti-gel v2 (NINE HANDS | DSP) :
 //  1. moteur de rendu logiciel force sur Windows, applique a chaque nouvelle fenetre hote (peer)
 //     et reverifie toutes les secondes, jamais en boucle ;
 //  2. aucun calcul lourd dans paint() : les caches d'images sont reconstruits par le timer seulement,
@@ -933,7 +933,7 @@ void EchoflexAudioProcessorEditor::showContextMenu (Array<int> learnItems)
     menu.addSubMenu ("MIDI", midi);
 
     menu.addSeparator();
-    menu.addItem (999, "Echoflex delay v1.5.1 - STUDIO WIGA", false);
+    menu.addItem (999, "Echoflex delay v1.5.1 - NINE HANDS | DSP", false);
 
     menu.showMenuAsync (PopupMenu::Options().withTargetComponent (this),
         [safe = Component::SafePointer<EchoflexAudioProcessorEditor> (this)] (int r)

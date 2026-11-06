@@ -1,4 +1,5 @@
 #include "PluginProcessor.h"
+#include "NineHandsFolder.h"
 #include "PluginEditor.h"
 #include <cstring>
 
@@ -209,7 +210,7 @@ void EchoflexAudioProcessor::setParam (const juce::String& id, float plainValue)
         p->setValueNotifyingHost (p->convertTo0to1 (plainValue));
 }
 
-// Anti-gel v2 (Studio Wiga) : jamais d'appel a l'hote (setValueNotifyingHost) ni d'allocation depuis
+// Anti-gel v2 (NINE HANDS | DSP) : jamais d'appel a l'hote (setValueNotifyingHost) ni d'allocation depuis
 // le thread audio. Le MIDI met la valeur en file ; un timer du thread de messages la transmet au DAW.
 const char* EchoflexAudioProcessor::queuedId (int i)
 {
@@ -615,7 +616,7 @@ void EchoflexAudioProcessor::applyFactoryPreset (int index)
 juce::File EchoflexAudioProcessor::getUserPresetFile()
 {
     return juce::File::getSpecialLocation (juce::File::userApplicationDataDirectory)
-             .getChildFile ("Studio Wiga")
+             .getChildFile (nhd::folderName())
              .getChildFile ("Echoflex")
              .getChildFile ("UserPresets.xml");
 }

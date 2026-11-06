@@ -1,4 +1,4 @@
-# ECHOFLEX (Studio Wiga) - notice PDF bilingue (anglais puis francais), illustree.
+# ECHOFLEX (NINE HANDS | DSP) - notice PDF bilingue (anglais puis francais), illustree.
 # Usage : python3 tools/manual.py <fichier PDF de sortie>
 #
 # Images sources dans tools/manual_assets/ (reprises de la notice v1.4.1, rendu reel du plugin) :
@@ -143,9 +143,9 @@ DASH = "&mdash;"
 T = {
 "en": dict(
  lang="ENGLISH", sub="Tape echo delay &middot; VST3 &middot; Windows &amp; macOS", ver="User manual &middot; version " + VERSION,
- foot="Echoflex &middot; Studio Wiga &middot; User manual &middot; v" + VERSION,
+ foot="Echoflex &middot; NINE HANDS | DSP &middot; User manual &middot; v" + VERSION,
  about_h="About this manual",
- about="Echoflex is a personal-use plug-in by Studio Wiga that recreates the Dunlop EP103 Echoplex&reg; Delay pedal, itself a compact tribute to the Maestro Echoplex EP-3 tape echo. This manual describes every control, every hidden function and the way the sound was modelled. It covers version " + VERSION + ". Echoplex is a trademark of its owner; Echoflex is an independent tribute and is not affiliated with it.",
+ about="Echoflex is a personal-use plug-in by NINE HANDS | DSP that recreates the Dunlop EP103 Echoplex&reg; Delay pedal, itself a compact tribute to the Maestro Echoplex EP-3 tape echo. This manual describes every control, every hidden function and the way the sound was modelled. It covers version " + VERSION + ". Echoplex is a trademark of its owner; Echoflex is an independent tribute and is not affiliated with it.",
  s01="Introduction", legend_h="The legend",
  legend=["The Maestro Echoplex EP-3 was built from 1970 to 1991 &ndash; the longest run of any Echoplex. Inside, a loop of tape in a removable cartridge runs past an erase head, a record head and a playback head; the distance between the heads and the tape speed set the delay. Its solid-state preamp, which every signal went through, became famous on its own for the way it sweetened and thickened a guitar.",
          "The EP-3 was also big, heavy and temperamental: worn tape, dirty heads and a tired pinch roller made the echo waver (wow and flutter) and darken. Many players loved precisely those flaws."],
@@ -166,9 +166,9 @@ T = {
  inst_h="Install",
  inst=["<b>Windows 11</b> &ndash; copy " + mono("Echoflex.vst3") + " to " + mono("C:\\Program Files\\Common Files\\VST3\\") + ".",
        "<b>macOS</b> &ndash; unzip and copy " + mono("Echoflex.vst3") + " to " + mono("~/Library/Audio/Plug-Ins/VST3/") + ". The plug-in is signed ad hoc; if macOS blocks it, allow it in System Settings &rsaquo; Privacy &amp; Security.",
-       "Rescan the plug-ins in your DAW. Echoflex appears as <b>Echoflex (Studio Wiga)</b> in the Delay category."],
+       "Rescan the plug-ins in your DAW. Echoflex appears as <b>Echoflex (NINE HANDS | DSP)</b> in the Delay category."],
  where_h="Where to put it in Reaper", chain=["Guitar", "Echoflex", "Genome", "Master"],
- where="Like the other Studio Wiga plug-ins, place Echoflex <b>before</b> your amp simulator (Two Notes Genome). In Mono mode (default, like the pedal) the same echo goes to the left and right outputs, with no inverted signal, so nothing cancels when the amp sim sums the track to mono. To hear the echoes after the amp &ndash; like an EP-3 in an effects loop &ndash; place it after the amp sim instead.",
+ where="Like the other NINE HANDS | DSP plug-ins, place Echoflex <b>before</b> your amp simulator (Two Notes Genome). In Mono mode (default, like the pedal) the same echo goes to the left and right outputs, with no inverted signal, so nothing cancels when the amp sim sums the track to mono. To hear the echoes after the amp &ndash; like an EP-3 in an effects loop &ndash; place it after the amp sim instead.",
  s03="Overview",
  ov=[("VOLUME / PUSH FOR AGE", "echo level. Click: AGE on/off. Hold 2 s: adjust AGE."), ("SUSTAIN", "number of repeats, up to self-oscillation."),
      ("DELAY", "delay time, 65 to 750 ms."), ("AGE LED (amber)", "lit when AGE is on, blinks while you adjust it."),
@@ -251,7 +251,7 @@ T = {
        ("Delay time &rsaquo;", ["DELAY knob (65 - 750 ms) &middot; Tap tempo (&hellip; ms) - click TAP &middot; Sync to DAW tempo (click DELAY / SYNC) &rsaquo; 1/2 &hellip; 1/16"], False),
        ("Startup settings &rsaquo;", ["True relay bypass / Trails bypass &middot; Dry + echo / 100% wet (kill dry) &middot; Mono (EP103 default) / Stereo"], False),
        ("MIDI &rsaquo;", ["Learn: Delay (" + DASH + ") &hellip; Learn: Sync (" + DASH + ") &middot; Cancel MIDI learn (while waiting) &middot; Clear all MIDI assignments &middot; Program Change 1-10  Factory presets"], False),
-       ("Echoflex delay v" + VERSION + " - STUDIO WIGA", [], False)],
+       ("Echoflex delay v" + VERSION + " - NINE HANDS | DSP", [], False)],
  win_h="Plugin size",
  win=["The window opens at the default size, 60 % at first, and can never be made smaller than 60 %. Choose <b>60 %</b>, <b>75 %</b> or <b>100 %</b> in Right-click &rsaquo; <b>Plugin size</b> (<b>(default)</b> is shown next to the default size), or drag the bottom-right corner to enlarge it (proportions are locked, up to 150 %).",
       "<b>Plugin size &rsaquo; Default size (new windows)</b> chooses the size at which every new Echoflex window opens: the setting is shared by all instances and saved on your computer, and the open window takes that size at once."],
@@ -284,7 +284,7 @@ T = {
         "SUSTAIN at maximum: the echo oscillates by itself. Turn DELAY for sirens; lower SUSTAIN to stop it."],
  s15="User presets",
  up="Save up to 9 presets of your own: Right-click &rsaquo; Save user preset &rsaquo; User 1 to 9, and recall them with Load user preset. A user preset stores DELAY, SUSTAIN, VOLUME, AGE amount, AGE on/off, the delay-time source, the tapped time and the sync division. All slots are shared by every project, in one file:",
- up_b=["Windows: " + mono("%APPDATA%\\Studio Wiga\\Echoflex\\UserPresets.xml"), "macOS: " + mono("~/Library/Studio Wiga/Echoflex/UserPresets.xml")],
+ up_b=["Windows: " + mono("%APPDATA%\\NINE HANDS | DSP\\Echoflex\\UserPresets.xml"), "macOS: " + mono("~/Library/NINE HANDS | DSP/Echoflex/UserPresets.xml")],
  up_note="User presets hold the sound only. The MIDI assignments (section 16) are saved with each project, so recalling a preset never changes your pedalboard mapping.",
  s16="MIDI",
  midi="Send MIDI to the Echoflex track (in Reaper: enable MIDI input on the track, or route a MIDI track to it). Echoflex listens on every MIDI channel. <b>No CC is assigned by default</b>: each of the nine controls below is assigned to your controller with <b>MIDI Learn</b>.",
@@ -327,14 +327,14 @@ T = {
        ["Display", "anti-freeze v2 under Windows (software rendering, watchdog, no host call from the audio thread)"],
        ["Tail", "12 s reported to the host (trails)"], ["Version", VERSION]],
  cred_h="Credits &amp; sources",
- cred=["Plug-in, sound model and manual: Studio Wiga. Pedal visual: Echoflex by Studio Wiga.", "Studio Wiga logo typeface: Montserrat (SIL Open Font License).",
+ cred=["Plug-in, sound model and manual: NINE HANDS | DSP. Pedal visual: Echoflex by NINE HANDS | DSP.", "NINE HANDS | DSP logo typeface: Montserrat (SIL Open Font License).",
        "Sources: Dunlop EP103 Echoplex Delay manual (jimdunlop.com); product pages zZounds and Chicago Music Exchange; Premier Guitar EP103 review; Starlite Campbell, \u201cThe Maestro Echoplex EP-3\u201d.",
        "Echoplex&reg; and Dunlop&reg; are trademarks of their respective owners. Echoflex is a personal, independent tribute."]),
 "fr": dict(
  lang="FRANÇAIS", sub="Écho à bande &middot; VST3 &middot; Windows &amp; macOS", ver="Notice d'utilisation &middot; version " + VERSION,
- foot="Echoflex &middot; Studio Wiga &middot; Notice d'utilisation &middot; v" + VERSION,
+ foot="Echoflex &middot; NINE HANDS | DSP &middot; Notice d'utilisation &middot; v" + VERSION,
  about_h="À propos de cette notice",
- about="Echoflex est un plug-in à usage personnel de Studio Wiga qui reproduit la pédale Dunlop EP103 Echoplex&reg; Delay, elle-même hommage compact à l'écho à bande Maestro Echoplex EP-3. Cette notice décrit chaque réglage, chaque fonction cachée et la façon dont le son a été modélisé. Elle correspond à la version " + VERSION + ". Echoplex est une marque de son propriétaire ; Echoflex est un hommage indépendant, sans lien avec elle.",
+ about="Echoflex est un plug-in à usage personnel de NINE HANDS | DSP qui reproduit la pédale Dunlop EP103 Echoplex&reg; Delay, elle-même hommage compact à l'écho à bande Maestro Echoplex EP-3. Cette notice décrit chaque réglage, chaque fonction cachée et la façon dont le son a été modélisé. Elle correspond à la version " + VERSION + ". Echoplex est une marque de son propriétaire ; Echoflex est un hommage indépendant, sans lien avec elle.",
  s01="Introduction", legend_h="La légende",
  legend=["Le Maestro Echoplex EP-3 a été fabriqué de 1970 à 1991, la plus longue carrière de tous les Echoplex. À l'intérieur, une boucle de bande dans une cartouche amovible défile devant une tête d'effacement, une tête d'enregistrement et une tête de lecture ; l'écart entre les têtes et la vitesse de la bande fixent le retard. Son préampli à transistors, traversé par tout le signal, est devenu célèbre à lui seul pour sa façon d'adoucir et d'épaissir une guitare.",
          "L'EP-3 était aussi gros, lourd et capricieux : bande usée, têtes sales et galet presseur fatigué faisaient onduler l'écho (pleurage et scintillement) et l'assombrissaient. Beaucoup de guitaristes adoraient justement ces défauts."],
@@ -355,9 +355,9 @@ T = {
  inst_h="Installer",
  inst=["<b>Windows 11</b> : copier " + mono("Echoflex.vst3") + " dans " + mono("C:\\Program Files\\Common Files\\VST3\\") + ".",
        "<b>macOS</b> : dézipper puis copier " + mono("Echoflex.vst3") + " dans " + mono("~/Library/Audio/Plug-Ins/VST3/") + ". Le plug-in est signé ad hoc ; si macOS le bloque, l'autoriser dans Réglages Système &rsaquo; Confidentialité et sécurité.",
-       "Relancer l'analyse des plug-ins dans le DAW. Echoflex apparaît sous le nom <b>Echoflex (Studio Wiga)</b> dans la catégorie Delay."],
+       "Relancer l'analyse des plug-ins dans le DAW. Echoflex apparaît sous le nom <b>Echoflex (NINE HANDS | DSP)</b> dans la catégorie Delay."],
  where_h="Où le placer dans Reaper", chain=["Guitare", "Echoflex", "Genome", "Master"],
- where="Comme les autres plug-ins Studio Wiga, placer Echoflex <b>avant</b> le simulateur d'ampli (Two Notes Genome). En mode Mono (par défaut, comme la pédale), le même écho part à gauche et à droite, sans signal inversé : rien ne s'annule quand le simulateur additionne la piste en mono. Pour entendre les échos après l'ampli, comme un EP-3 dans une boucle d'effets, le placer plutôt après le simulateur.",
+ where="Comme les autres plug-ins NINE HANDS | DSP, placer Echoflex <b>avant</b> le simulateur d'ampli (Two Notes Genome). En mode Mono (par défaut, comme la pédale), le même écho part à gauche et à droite, sans signal inversé : rien ne s'annule quand le simulateur additionne la piste en mono. Pour entendre les échos après l'ampli, comme un EP-3 dans une boucle d'effets, le placer plutôt après le simulateur.",
  s03="Vue d'ensemble",
  ov=[("VOLUME / PUSH FOR AGE", "niveau de l'écho. Clic : AGE on/off. Maintien 2 s : réglage de l'AGE."), ("SUSTAIN", "nombre de répétitions, jusqu'à l'auto-oscillation."),
      ("DELAY", "temps de retard, de 65 à 750 ms."), ("LED AGE (ambre)", "allumée quand l'AGE est actif, clignote pendant le réglage."),
@@ -431,7 +431,7 @@ T = {
  st_b=["<b>Première ligne</b> : le temps de retard réel en ms (potard, tap ou synchro), SUSTAIN et VOLUME, ou la valeur d'AGE pendant le réglage.",
        "<b>Deuxième ligne</b> : état de l'AGE (CLEAR TAPE ou AGE x.x), TAP / SYNC, BYPASS, preset en cours et dernier message MIDI reçu (elle passe au rouge à chaque message ou tap)."],
  s11="Menu clic droit",
- rc="Clic droit n'importe où sur la pédale. Sur une commande (un potard, le footswitch ou la prise TAP), le menu commence par les lignes <b>MIDI Learn</b> de cette commande (voir 16 &middot; MIDI) ; un clic droit sur la LED SYNC ouvre le menu des valeurs de note, avec <b>MIDI Learn: Sync</b> en tête. Le menu est en anglais, comme sur les autres plug-ins Studio Wiga.",
+ rc="Clic droit n'importe où sur la pédale. Sur une commande (un potard, le footswitch ou la prise TAP), le menu commence par les lignes <b>MIDI Learn</b> de cette commande (voir 16 &middot; MIDI) ; un clic droit sur la LED SYNC ouvre le menu des valeurs de note, avec <b>MIDI Learn: Sync</b> en tête. Le menu est en anglais, comme sur les autres plug-ins NINE HANDS | DSP.",
  menu=[("SEULEMENT SUR UNE COMMANDE (ici SUSTAIN, pas encore assigné)", ["MIDI Learn: Sustain (" + DASH + ")", "Clear MIDI: Sustain (grisé tant que rien n'est assigné)", "Cancel MIDI learn (pendant l'attente d'un CC)"], True),
        ("Plugin size &rsaquo;", ["60 %  (default) &middot; 75 % &middot; 100 % &middot; Default size (new windows) &rsaquo; 60 % / 75 % / 100 %"], False),
        ("Factory presets &rsaquo;", ["1. Noon (Manual Start) &hellip; 10. Runaway Oscillation"], False),
@@ -440,7 +440,7 @@ T = {
        ("Delay time &rsaquo;", ["DELAY knob (65 - 750 ms) &middot; Tap tempo (&hellip; ms) - click TAP &middot; Sync to DAW tempo (click DELAY / SYNC) &rsaquo; 1/2 &hellip; 1/16"], False),
        ("Startup settings &rsaquo;", ["True relay bypass / Trails bypass &middot; Dry + echo / 100% wet (kill dry) &middot; Mono (EP103 default) / Stereo"], False),
        ("MIDI &rsaquo;", ["Learn: Delay (" + DASH + ") &hellip; Learn: Sync (" + DASH + ") &middot; Cancel MIDI learn (pendant l'attente) &middot; Clear all MIDI assignments &middot; Program Change 1-10  Factory presets"], False),
-       ("Echoflex delay v" + VERSION + " - STUDIO WIGA", [], False)],
+       ("Echoflex delay v" + VERSION + " - NINE HANDS | DSP", [], False)],
  win_h="Taille du plugin",
  win=["La fenêtre s'ouvre à la taille par défaut, 60 % au départ, et ne peut jamais être réduite sous 60 %. Choisissez <b>60 %</b>, <b>75 %</b> ou <b>100 %</b> dans Clic droit &rsaquo; <b>Plugin size</b> (<b>(default)</b> est indiqué à côté de la taille par défaut), ou tirez le coin inférieur droit pour l'agrandir (proportions bloquées, jusqu'à 150 %).",
       "<b>Plugin size &rsaquo; Default size (new windows)</b> choisit la taille d'ouverture de toutes les nouvelles fenêtres d'Echoflex : le réglage est commun à toutes les instances et enregistré sur l'ordinateur, et la fenêtre ouverte prend aussitôt cette taille."],
@@ -473,7 +473,7 @@ T = {
         "SUSTAIN au maximum : l'écho oscille tout seul. Tournez DELAY pour les sirènes ; baissez SUSTAIN pour l'arrêter."],
  s15="Presets utilisateur",
  up="Enregistrez jusqu'à 9 presets personnels : Clic droit &rsaquo; Save user preset &rsaquo; User 1 à 9, et rappelez-les avec Load user preset. Un preset utilisateur garde DELAY, SUSTAIN, VOLUME, la quantité d'AGE, AGE on/off, la source du temps de retard, le temps tapé et la division de synchro. Les emplacements sont communs à tous les projets, dans un seul fichier :",
- up_b=["Windows : " + mono("%APPDATA%\\Studio Wiga\\Echoflex\\UserPresets.xml"), "macOS : " + mono("~/Library/Studio Wiga/Echoflex/UserPresets.xml")],
+ up_b=["Windows : " + mono("%APPDATA%\\NINE HANDS | DSP\\Echoflex\\UserPresets.xml"), "macOS : " + mono("~/Library/NINE HANDS | DSP/Echoflex/UserPresets.xml")],
  up_note="Les presets utilisateur ne gardent que le son. Les assignations MIDI (section 16) sont sauvegardées avec chaque projet : rappeler un preset ne change jamais le réglage de votre pédalier.",
  s16="MIDI",
  midi="Envoyez le MIDI sur la piste d'Echoflex (dans Reaper : activer l'entrée MIDI de la piste, ou router une piste MIDI vers elle). Echoflex écoute tous les canaux MIDI. <b>Aucun CC n'est assigné d'office</b> : chacune des neuf commandes ci-dessous s'assigne à votre contrôleur avec le <b>MIDI Learn</b>.",
@@ -516,7 +516,7 @@ T = {
        ["Affichage", "anti-gel v2 sous Windows (rendu logiciel, chien de garde, aucun appel à l'hôte depuis le thread audio)"],
        ["Queue", "12 s annoncées au DAW (trails)"], ["Version", VERSION]],
  cred_h="Crédits et sources",
- cred=["Plug-in, modèle sonore et notice : Studio Wiga. Visuel de la pédale : Echoflex par Studio Wiga.", "Police du logo Studio Wiga : Montserrat (SIL Open Font License).",
+ cred=["Plug-in, modèle sonore et notice : NINE HANDS | DSP. Visuel de la pédale : Echoflex par NINE HANDS | DSP.", "Police du logo NINE HANDS | DSP : Montserrat (SIL Open Font License).",
        "Sources : manuel Dunlop EP103 Echoplex Delay (jimdunlop.com) ; fiches produit zZounds et Chicago Music Exchange ; test EP103 de Premier Guitar ; Starlite Campbell, « The Maestro Echoplex EP-3 ».",
        "Echoplex&reg; et Dunlop&reg; sont des marques de leurs propriétaires respectifs. Echoflex est un hommage personnel et indépendant."]),
 }
@@ -692,7 +692,7 @@ def cover_bg(c, doc):
     c.setFillColor(ACC); c.rect(0, A4[1] - 3 * mm, A4[0], 3 * mm, stroke=0, fill=1); c.restoreState()
 
 doc = BaseDocTemplate(OUT, pagesize=A4, leftMargin=18 * mm, rightMargin=18 * mm, topMargin=16 * mm, bottomMargin=18 * mm,
-                      title="Echoflex - User manual / Notice v" + VERSION, author="Studio Wiga")
+                      title="Echoflex - User manual / Notice v" + VERSION, author="NINE HANDS | DSP")
 doc.addPageTemplates([PageTemplate(id="cover", frames=[Frame(doc.leftMargin, doc.bottomMargin, doc.width, doc.height, id="fc")], onPage=cover_bg),
                       PageTemplate(id="p", frames=[Frame(doc.leftMargin, doc.bottomMargin, doc.width, doc.height, id="f")], onPage=deco)])
 en = section("en"); fr = section("fr")

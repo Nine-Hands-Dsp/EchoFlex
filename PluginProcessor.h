@@ -6,7 +6,7 @@
 #include <vector>
 
 //==============================================================================
-// ECHOFLEX (Studio Wiga) — reproduction de la pedale Dunlop EP103 Echoplex Delay
+// ECHOFLEX (NINE HANDS | DSP) — reproduction de la pedale Dunlop EP103 Echoplex Delay
 // (emulation numerique de l'echo a bande Maestro Echoplex EP-3).
 // Voir README.md pour la documentation.
 //==============================================================================

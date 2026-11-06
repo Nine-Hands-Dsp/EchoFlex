@@ -1,7 +1,7 @@
-# Echoflex (Studio Wiga) — VST3
+# Echoflex (NINE HANDS | DSP) — VST3
 
 Reproduction en plugin VST3 (Windows 11 et macOS) de la pédale **Dunlop EP103 Echoplex Delay**, la version « boîtier » de l'écho à bande Maestro **Echoplex EP-3** (1970-1991).
-Usage personnel. Visuel photo ECHOFLEX mis à l'échelle du projet (1520 × 1916, même cadrage que Wack'd), logo Studio Wiga en noir et blanc.
+Usage personnel. Visuel photo ECHOFLEX mis à l'échelle du projet (1520 × 1916, même cadrage que Wack'd), logo NINE HANDS | DSP en noir et blanc.
 
 ## Installation via GitHub
 
@@ -10,7 +10,7 @@ Usage personnel. Visuel photo ECHOFLEX mis à l'échelle du projet (1520 × 1916
 3. Télécharger l'artefact :
    - **Windows** : copier `Echoflex.vst3` dans `C:\Program Files\Common Files\VST3\`
    - **macOS** : dézipper puis copier `Echoflex.vst3` dans `~/Library/Audio/Plug-Ins/VST3/`
-4. Relancer l'analyse des plugins dans le DAW. Le plugin apparaît comme **Echoflex (Studio Wiga)**.
+4. Relancer l'analyse des plugins dans le DAW. Le plugin apparaît comme **Echoflex (NINE HANDS | DSP)**.
 
 ## Ce que fait la vraie EP103 (documentation)
 
@@ -33,11 +33,11 @@ Sources : manuel Dunlop EP103 (jimdunlop.com), fiches zZounds et Chicago Music E
 ## Interface
 
 - Fenêtre ouverte par défaut à **493 px de haut** (391 × 493), impossible de la réduire en dessous, proportions bloquées, jusqu'à 150 % : **mêmes réglages de taille que Wack'd**.
-- **Clic droit** : *Plugin size* (60 % / 75 % / 100 % pour cette fenêtre, et *Default size (new windows)* pour choisir la taille d'ouverture de toutes les nouvelles fenêtres d'Echoflex, réglage enregistré dans `Studio Wiga/Echoflex/settings.xml` du dossier de données de l'utilisateur, comme Octopus), presets d'usine, presets utilisateur 1 à 9 (charger / sauvegarder), AGE, source du temps de retard (potard / tap / synchro tempo du DAW), réglages de démarrage, table MIDI.
+- **Clic droit** : *Plugin size* (60 % / 75 % / 100 % pour cette fenêtre, et *Default size (new windows)* pour choisir la taille d'ouverture de toutes les nouvelles fenêtres d'Echoflex, réglage enregistré dans `NINE HANDS | DSP/Echoflex/settings.xml` du dossier de données de l'utilisateur, comme Octopus), presets d'usine, presets utilisateur 1 à 9 (charger / sauvegarder), AGE, source du temps de retard (potard / tap / synchro tempo du DAW), réglages de démarrage, table MIDI.
 - **Potards** (v1.1) : reconstruits d'après la photo du visuel, 128 positions pré-calculées. L'éclairage du chapeau et de la jupe est relevé sur la photo et reste fixe (lumière en haut à gauche) ; le motif des 47 dents tourne sous cette lumière ; l'aileron (facette éclairée côté lumière, ombre portée sur le chapeau) et le trait blanc sont redessinés à chaque angle.
 - **LED rouge** (effet actif) dans la bague chromée de la photo : allumage/extinction en fondu, léger scintillement, la lueur respire avec le niveau des répétitions. **LED AGE** ambre : fondu, clignote pendant le réglage AGE et se remplit pendant l'appui long.
 - **Ligne d'état** sous la LED : elle n'apparaît que lorsqu'un réglage bouge (temps réel en ms, Sustain, Volume, état AGE, tap / synchro, preset, MIDI), reste 2,5 s puis s'efface en fondu.
-- Logo **ECHOFLEX** en lettres argent biseautées avec ondes concentriques, logo **Studio Wiga** (deux anneaux entrelacés + STUDIO WIGA) en noir et blanc sous « DELAY ».
+- Logo **ECHOFLEX** en lettres argent biseautées avec ondes concentriques, logo **NINE HANDS | DSP** (deux anneaux entrelacés + NINE HANDS | DSP) en noir et blanc sous « DELAY ».
 - Fond noir avec les ondes du logo en transparence autour de la pédale.
 
 ## MIDI
@@ -55,7 +55,7 @@ Aucun CC assigné par défaut : clic droit > MIDI > Learn (ou clic droit sur une
 
 ## Placement dans Reaper
 
-Comme les autres plugins Studio Wiga : **avant** Genome. Le mode Mono (par défaut, comme la pédale) envoie le même écho à gauche et à droite, sans opposition de phase : aucune annulation quand Genome additionne la piste en mono.
+Comme les autres plugins NINE HANDS | DSP : **avant** Genome. Le mode Mono (par défaut, comme la pédale) envoie le même écho à gauche et à droite, sans opposition de phase : aucune annulation quand Genome additionne la piste en mono.
 
 ## Nouveautés v1.4
 
@@ -67,7 +67,7 @@ Comme les autres plugins Studio Wiga : **avant** Genome. Le mode Mono (par défa
 
 ## Nouveautés v1.2
 
-- Nom du plug-in : **Echoflex** (fichier `Echoflex.vst3`, « Echoflex (Studio Wiga) » dans le DAW).
+- Nom du plug-in : **Echoflex** (fichier `Echoflex.vst3`, « Echoflex (NINE HANDS | DSP) » dans le DAW).
 - **SYNC** : clic sur l'inscription DELAY ou sur la LED SYNC verte = delay calé sur le tempo de Reaper / du DAW. En SYNC, le potard DELAY choisit la valeur de note (1/16 → 1/2) ; molette ou clic droit sur DELAY/SYNC = valeur de note ; CC 28. La LED flashe sur la grille du morceau.
 - Crans des potards redessinés : ils tournent sous la lumière fixe (haut-gauche), plus sombres pour le volume.
 - « PUSH FOR AGE » plus lisible ; inscription SYNC au-dessus de sa LED.

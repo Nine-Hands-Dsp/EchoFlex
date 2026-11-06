@@ -19,7 +19,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(JUCE)
 
 juce_add_plugin(Echoflex
-    COMPANY_NAME                "Studio Wiga"
+    COMPANY_NAME                "NINE HANDS | DSP"
     COMPANY_WEBSITE             ""
     PLUGIN_MANUFACTURER_CODE    Wiga
     PLUGIN_CODE                 Ecfx
