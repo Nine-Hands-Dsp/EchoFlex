@@ -55,7 +55,7 @@ Aucun CC assigné par défaut : clic droit > MIDI > Learn (ou clic droit sur une
 
 ## Placement dans Reaper
 
-Comme les autres plugins NINE HANDS | DSP : **avant** Genome. Le mode Mono (par défaut, comme la pédale) envoie le même écho à gauche et à droite, sans opposition de phase : aucune annulation quand Genome additionne la piste en mono.
+Comme les autres plugins NINE HANDS | DSP : **avant** Ampire / Impulse. Le mode Mono (par défaut, comme la pédale) envoie le même écho à gauche et à droite, sans opposition de phase : aucune annulation quand un simulateur d'ampli additionne la piste en mono.
 
 ## Nouveautés v1.4
 

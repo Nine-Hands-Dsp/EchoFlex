@@ -30,7 +30,7 @@ AS = os.path.join(ROOT, "tools", "manual_assets")
 FONTS = os.path.join(AS, "fonts")
 OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(ROOT, "docs", "Echoflex_Manual_EN-FR.pdf")
 TMP = tempfile.mkdtemp(prefix="echoflex_manual_")
-VERSION = "1.5.1"     # = version du plugin dans CMakeLists.txt
+VERSION = "1.5.2"     # = version du plugin dans CMakeLists.txt
 
 for n, f in (("Pop", "Poppins-Regular"), ("PopL", "Poppins-Light"), ("PopM", "Poppins-Medium"), ("PopB", "Poppins-Bold"),
              ("PopI", "Poppins-Italic"), ("Mono", "DejaVuSansMono"), ("DjV", "DejaVuSans")):
@@ -167,8 +167,8 @@ T = {
  inst=["<b>Windows 11</b> &ndash; copy " + mono("Echoflex.vst3") + " to " + mono("C:\\Program Files\\Common Files\\VST3\\") + ".",
        "<b>macOS</b> &ndash; unzip and copy " + mono("Echoflex.vst3") + " to " + mono("~/Library/Audio/Plug-Ins/VST3/") + ". The plug-in is signed ad hoc; if macOS blocks it, allow it in System Settings &rsaquo; Privacy &amp; Security.",
        "Rescan the plug-ins in your DAW. Echoflex appears as <b>Echoflex (NINE HANDS | DSP)</b> in the Delay category."],
- where_h="Where to put it in Reaper", chain=["Guitar", "Echoflex", "Genome", "Master"],
- where="Like the other NINE HANDS | DSP plug-ins, place Echoflex <b>before</b> your amp simulator (Two Notes Genome). In Mono mode (default, like the pedal) the same echo goes to the left and right outputs, with no inverted signal, so nothing cancels when the amp sim sums the track to mono. To hear the echoes after the amp &ndash; like an EP-3 in an effects loop &ndash; place it after the amp sim instead.",
+ where_h="Where to put it in Reaper", chain=["Guitar", "Echoflex", "Ampire", "Impulse", "Master"],
+ where="Like the other NINE HANDS | DSP plug-ins, place Echoflex <b>before</b> your amp simulator (Ampire, then Impulse). In Mono mode (default, like the pedal) the same echo goes to the left and right outputs, with no inverted signal, so nothing cancels when the amp sim sums the track to mono. To hear the echoes after the amp &ndash; like an EP-3 in an effects loop &ndash; place it after the amp sim instead.",
  s03="Overview",
  ov=[("VOLUME / PUSH FOR AGE", "echo level. Click: AGE on/off. Hold 2 s: adjust AGE."), ("SUSTAIN", "number of repeats, up to self-oscillation."),
      ("DELAY", "delay time, 65 to 750 ms."), ("AGE LED (amber)", "lit when AGE is on, blinks while you adjust it."),
@@ -313,7 +313,7 @@ T = {
  tr=[("The echoes do not change when I turn DELAY.", "That is normal if the time came from TAP or sync: the first turn of DELAY gives control back to the knob. Check the second line of the status line."),
      ("The sound keeps growing.", "SUSTAIN is near the maximum: that is self-oscillation. Lower SUSTAIN or VOLUME."),
      ("Nothing happens when I click VOLUME.", "Click without moving the mouse. A drag turns the knob; a short click toggles AGE; holding still for 2 s enters AGE adjust mode."),
-     ("No echo after Genome / an amp sim.", "Check Startup settings &rsaquo; Mix: in 100 % wet the dry signal is removed. Check also that the footswitch LED is lit."),
+     ("No echo after Ampire / an amp sim.", "Check Startup settings &rsaquo; Mix: in 100 % wet the dry signal is removed. Check also that the footswitch LED is lit."),
      ("My MIDI pedal does nothing.", "The track must receive MIDI, and no CC is assigned by default: right-click the control &rsaquo; MIDI Learn. Right-click &rsaquo; MIDI shows the CC of each control."),
      ("The window is too small.", "Right-click &rsaquo; Plugin size &rsaquo; 75 % / 100 %, or drag the corner. To open every new window bigger: Plugin size &rsaquo; Default size (new windows). It cannot be smaller than 60 %."),
      ("The SYNC LED stays dim.", "The host sends no tempo to the plug-in. In Reaper this cannot happen; in other hosts, check that the plug-in is on a normal track."),
@@ -356,8 +356,8 @@ T = {
  inst=["<b>Windows 11</b> : copier " + mono("Echoflex.vst3") + " dans " + mono("C:\\Program Files\\Common Files\\VST3\\") + ".",
        "<b>macOS</b> : dézipper puis copier " + mono("Echoflex.vst3") + " dans " + mono("~/Library/Audio/Plug-Ins/VST3/") + ". Le plug-in est signé ad hoc ; si macOS le bloque, l'autoriser dans Réglages Système &rsaquo; Confidentialité et sécurité.",
        "Relancer l'analyse des plug-ins dans le DAW. Echoflex apparaît sous le nom <b>Echoflex (NINE HANDS | DSP)</b> dans la catégorie Delay."],
- where_h="Où le placer dans Reaper", chain=["Guitare", "Echoflex", "Genome", "Master"],
- where="Comme les autres plug-ins NINE HANDS | DSP, placer Echoflex <b>avant</b> le simulateur d'ampli (Two Notes Genome). En mode Mono (par défaut, comme la pédale), le même écho part à gauche et à droite, sans signal inversé : rien ne s'annule quand le simulateur additionne la piste en mono. Pour entendre les échos après l'ampli, comme un EP-3 dans une boucle d'effets, le placer plutôt après le simulateur.",
+ where_h="Où le placer dans Reaper", chain=["Guitare", "Echoflex", "Ampire", "Impulse", "Master"],
+ where="Comme les autres plug-ins NINE HANDS | DSP, placer Echoflex <b>avant</b> le simulateur d'ampli (Ampire, puis Impulse). En mode Mono (par défaut, comme la pédale), le même écho part à gauche et à droite, sans signal inversé : rien ne s'annule quand le simulateur additionne la piste en mono. Pour entendre les échos après l'ampli, comme un EP-3 dans une boucle d'effets, le placer plutôt après le simulateur.",
  s03="Vue d'ensemble",
  ov=[("VOLUME / PUSH FOR AGE", "niveau de l'écho. Clic : AGE on/off. Maintien 2 s : réglage de l'AGE."), ("SUSTAIN", "nombre de répétitions, jusqu'à l'auto-oscillation."),
      ("DELAY", "temps de retard, de 65 à 750 ms."), ("LED AGE (ambre)", "allumée quand l'AGE est actif, clignote pendant le réglage."),
@@ -502,7 +502,7 @@ T = {
  tr=[("Les échos ne changent pas quand je tourne DELAY.", "C'est normal si le temps venait du TAP ou de la synchro : le premier mouvement de DELAY rend la main au potard. Regardez la deuxième ligne de la ligne d'état."),
      ("Le son n'arrête pas de grossir.", "SUSTAIN est près du maximum : c'est l'auto-oscillation. Baissez SUSTAIN ou VOLUME."),
      ("Rien ne se passe quand je clique sur VOLUME.", "Cliquez sans bouger la souris. Un glissé tourne le potard ; un clic court bascule l'AGE ; un appui immobile de 2 s ouvre le réglage AGE."),
-     ("Pas d'écho après Genome / un simulateur.", "Vérifiez Startup settings &rsaquo; Mix : en 100 % wet, le son direct est retiré. Vérifiez aussi que la LED du footswitch est allumée."),
+     ("Pas d'écho après Ampire / un simulateur.", "Vérifiez Startup settings &rsaquo; Mix : en 100 % wet, le son direct est retiré. Vérifiez aussi que la LED du footswitch est allumée."),
      ("Ma pédale MIDI ne fait rien.", "La piste doit recevoir le MIDI, et aucun CC n'est assigné d'office : clic droit sur la commande &rsaquo; MIDI Learn. Clic droit &rsaquo; MIDI affiche le CC de chaque commande."),
      ("La fenêtre est trop petite.", "Clic droit &rsaquo; Plugin size &rsaquo; 75 % / 100 %, ou tirez le coin. Pour ouvrir toutes les nouvelles fenêtres plus grandes : Plugin size &rsaquo; Default size (new windows). Elle ne peut pas être plus petite que 60 %."),
      ("La LED SYNC reste faible.", "L'hôte n'envoie pas de tempo au plug-in. Dans Reaper, ça n'arrive pas ; dans d'autres hôtes, vérifiez que le plug-in est sur une piste normale."),
