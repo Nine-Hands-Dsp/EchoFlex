@@ -3,6 +3,13 @@
 Reproduction en plugin VST3 (Windows 11 et macOS) de la pédale **Dunlop EP103 Echoplex Delay**, la version « boîtier » de l'écho à bande Maestro **Echoplex EP-3** (1970-1991).
 Usage personnel. Visuel photo ECHOFLEX mis à l'échelle du projet (1520 × 1916, même cadrage que Wack'd), logo NINE HANDS | DSP en noir et blanc.
 
+<p align="center">
+  <a href="https://github.com/Nine-Hands-Dsp/EchoFlex/releases/latest/download/Echoflex-VST3-Windows.zip"><img alt="Télécharger pour Windows" src="https://img.shields.io/badge/%E2%AC%87%20T%C3%A9l%C3%A9charger-Windows-0078D6?style=for-the-badge"></a>
+  <a href="https://github.com/Nine-Hands-Dsp/EchoFlex/releases/latest/download/Echoflex-VST3-macOS.zip"><img alt="Télécharger pour macOS" src="https://img.shields.io/badge/%E2%AC%87%20T%C3%A9l%C3%A9charger-macOS-111111?style=for-the-badge&logo=apple&logoColor=white"></a>
+  <br>
+  <a href="https://github.com/Nine-Hands-Dsp/EchoFlex/releases/latest"><img alt="Dernière version" src="https://img.shields.io/github/v/release/Nine-Hands-Dsp/EchoFlex?label=derni%C3%A8re%20version&color=919496"></a>
+</p>
+
 ## Installation via GitHub
 
 1. Déposer à la racine du dépôt : `background.jpg`, `knob_strip.png`, `CMakeLists.txt`, `PluginProcessor.h/.cpp`, `PluginEditor.h/.cpp`, `README.md`, `Montserrat-OFL.txt` et le dossier `.github/workflows/build.yml`.
