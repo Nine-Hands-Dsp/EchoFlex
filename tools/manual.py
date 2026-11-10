@@ -101,7 +101,10 @@ canvas = canvas.crop((0, 0, canvas.width, pad + int(ch * 1.20)))
 cover = os.path.join(TMP, "ech_cover_cutout.png"); canvas.convert("RGB").save(cover)
 
 def img(path, width):
-    im = Image.open(path); return RLImage(path, width=width, height=width * im.height / im.width)
+    im = Image.open(path)
+    if im.mode in ("RGB", "L") and path.lower().endswith(".png"):       # captures : JPEG haute qualite (notice legere)
+        j = os.path.join(TMP, os.path.basename(path)[:-4] + ".jpg"); im.convert("RGB").save(j, quality=90, subsampling=0); path = j
+    return RLImage(path, width=width, height=width * im.height / im.width)
 
 # ------------------------------------------------------------------ styles
 st = {
@@ -355,7 +358,8 @@ def cover_bg(c, doc):
     kk = min(PEDAL_H / ch_, PEDAL_MAXW / cw_)
     dw, dh = iw * kk, ih * kk
     y0 = A4[1] - (PEDAL_TOP + (PEDAL_H - ch_ * kk) / 2) + pad * kk
-    c.drawImage(cover, (A4[0] - dw) / 2, y0 - dh, dw, dh)
+    cj = os.path.join(TMP, "ech_cover.jpg"); ci.convert("RGB").save(cj, quality=92, subsampling=0)
+    c.drawImage(cj, (A4[0] - dw) / 2, y0 - dh, dw, dh)
     line("ECHOFLEX", NAME_TOP - NAME_PT * 0.02, "Title", NAME_PT, NAME_PT * 0.5, colors.white)
     line("Écho à bande", SUB_TOP, "Pop", SUB_PT, 1.5, colors.HexColor("#BDC4B8"))
     lw, lh = Image.open(LOGO_PNG).size
