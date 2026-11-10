@@ -1,7 +1,7 @@
 # Echoflex (NINE HANDS | DSP) — VST3
 
 Reproduction en plugin VST3 (Windows 11 et macOS) de la pédale **Dunlop EP103 Echoplex Delay**, la version « boîtier » de l'écho à bande Maestro **Echoplex EP-3** (1970-1991).
-Usage personnel. Visuel photo ECHOFLEX mis à l'échelle du projet (1520 × 1916, même cadrage que Wack'd), logo NINE HANDS | DSP en noir et blanc.
+Usage personnel. Visuel réaliste au format pédale simple NINE HANDS | DSP (image 1246 × 1800, pédale plein cadre), sérigraphie vectorielle en Poppins, logo NINE HANDS | DSP.
 
 <p align="center">
   <a href="https://github.com/Nine-Hands-Dsp/EchoFlex/releases/latest/download/Echoflex-VST3-Windows.zip"><img alt="Télécharger pour Windows" src="https://img.shields.io/badge/%E2%AC%87%20T%C3%A9l%C3%A9charger-Windows-0078D6?style=for-the-badge"></a>
@@ -12,14 +12,14 @@ Usage personnel. Visuel photo ECHOFLEX mis à l'échelle du projet (1520 × 1916
   <a href="https://github.com/Nine-Hands-Dsp/EchoFlex/releases/latest"><img alt="Dernière version" src="https://img.shields.io/github/v/release/Nine-Hands-Dsp/EchoFlex?label=derni%C3%A8re%20version&color=919496"></a>
 </p>
 
-## Installation via GitHub
+## Installation
 
-1. Déposer à la racine du dépôt : `background.jpg`, `knob_strip.png`, `CMakeLists.txt`, `PluginProcessor.h/.cpp`, `PluginEditor.h/.cpp`, `README.md`, `Montserrat-OFL.txt` et le dossier `.github/workflows/build.yml`.
-2. Le push lance la compilation (onglet **Actions**) : Windows (`windows-2022`) et macOS (binaire universel).
-3. Télécharger l'artefact :
+1. Télécharger le zip de son système avec les boutons ci-dessus.
    - **Windows** : copier `Echoflex.vst3` dans `C:\Program Files\Common Files\VST3\`
    - **macOS** : dézipper puis copier `Echoflex.vst3` dans `~/Library/Audio/Plug-Ins/VST3/`
-4. Relancer l'analyse des plugins dans le DAW. Le plugin apparaît comme **Echoflex (NINE HANDS | DSP)**.
+2. Relancer l'analyse des plugins dans le DAW. Le plugin apparaît comme **Echoflex (NINE HANDS | DSP)**.
+
+Chaque push sur `main` recompile Windows (`windows-2022`) et macOS (binaire universel) et publie la Release `v<version>` avec des fichiers à nom fixe.
 
 ## Ce que fait la vraie EP103 (documentation)
 
@@ -41,13 +41,12 @@ Sources : manuel Dunlop EP103 (jimdunlop.com), fiches zZounds et Chicago Music E
 
 ## Interface
 
-- Fenêtre ouverte par défaut à **493 px de haut** (391 × 493), impossible de la réduire en dessous, proportions bloquées, jusqu'à 150 % : **mêmes réglages de taille que Wack'd**.
-- **Clic droit** : *Plugin size* (60 % / 75 % / 100 % pour cette fenêtre, et *Default size (new windows)* pour choisir la taille d'ouverture de toutes les nouvelles fenêtres d'Echoflex, réglage enregistré dans `NINE HANDS | DSP/Echoflex/settings.xml` du dossier de données de l'utilisateur, comme Octopus), presets d'usine, presets utilisateur 1 à 9 (charger / sauvegarder), AGE, source du temps de retard (potard / tap / synchro tempo du DAW), réglages de démarrage, table MIDI.
-- **Potards** (v1.1) : reconstruits d'après la photo du visuel, 128 positions pré-calculées. L'éclairage du chapeau et de la jupe est relevé sur la photo et reste fixe (lumière en haut à gauche) ; le motif des 47 dents tourne sous cette lumière ; l'aileron (facette éclairée côté lumière, ombre portée sur le chapeau) et le trait blanc sont redessinés à chaque angle.
-- **LED rouge** (effet actif) dans la bague chromée de la photo : allumage/extinction en fondu, léger scintillement, la lueur respire avec le niveau des répétitions. **LED AGE** ambre : fondu, clignote pendant le réglage AGE et se remplit pendant l'appui long.
-- **Ligne d'état** sous la LED : elle n'apparaît que lorsqu'un réglage bouge (temps réel en ms, Sustain, Volume, état AGE, tap / synchro, preset, MIDI), reste 2,5 s puis s'efface en fondu.
-- Logo **ECHOFLEX** en lettres argent biseautées avec ondes concentriques, logo **NINE HANDS | DSP** (deux anneaux entrelacés + NINE HANDS | DSP) en noir et blanc sous « DELAY ».
-- Fond noir avec les ondes du logo en transparence autour de la pédale.
+- Fenêtre ouverte par défaut à **493 px de haut** (« 60 % »), impossible de la réduire en dessous, proportions bloquées, jusqu'à 150 %. Clic droit > *Plugin size* (60 / 75 / 100 %) et *Default size (new windows)*.
+- **Potards** d'après la photo (128 positions, lumière fixe en haut à gauche). **Flou de mouvement** : quand on tourne vite, la couronne crantée et le centre tournent ensemble, à la même vitesse, et passent en fondu du net au flou puis au flou total (aucun effet stroboscopique) ; le flou retombe dès que le potard ralentit.
+- **LED** (photo de LED à lentille facettée) : rouge = effet actif (fondu, lueur qui respire avec les répétitions, reflet sur l'écrou du footswitch), ambre = AGE (clignote pendant le réglage, se remplit pendant l'appui long), verte = SYNC (flashe sur la grille du morceau). Chaque LED éclaire la façade autour d'elle.
+- **Barre de presets** entre la LED et le footswitch : ◀ ▶ = preset précédent / suivant, clic sur le nom = menu des presets (usine et utilisateur). Pendant un réglage, la **ligne d'état** prend sa place (valeur du réglage qui bouge, MIDI Learn…), reste 2,5 s puis la barre de presets revient en fondu.
+- **SYNC** : clic sur l'inscription DELAY / SYNC = delay calé sur le tempo du DAW ; molette ou clic droit = valeur de note. **TAP** : clic sur la prise TAP (à gauche, en bas).
+- **Clic droit** : menus au design Octopus, ouverts à l'endroit du clic (taille, presets, AGE, temps de retard, réglages de démarrage, MIDI). Clic droit sur une commande = son MIDI Learn en tête du menu.
 
 ## MIDI
 
@@ -65,6 +64,11 @@ Aucun CC assigné par défaut : clic droit > MIDI > Learn (ou clic droit sur une
 ## Placement dans Reaper
 
 Comme les autres plugins NINE HANDS | DSP : **avant** Ampire / Impulse. Le mode Mono (par défaut, comme la pédale) envoie le même écho à gauche et à droite, sans opposition de phase : aucune annulation quand un simulateur d'ampli additionne la piste en mono.
+
+## Nouveautés v2.0
+
+- v2.0.0 : pédale refaite au format NINE HANDS | DSP : visuel réaliste plein cadre, sérigraphie vectorielle Poppins, logo NINE HANDS | DSP, LED photo (rouge, ambre, verte) avec lumière sur la façade, jacks et footswitch du kit photo, flou de mouvement des potards, barre de presets partagée avec la ligne d'état, menus au design Octopus. Son et presets inchangés (les projets et presets existants se rechargent à l'identique).
+- Sources du visuel : `tools/design/` (`make_art.py`, `make_knob.py`, `make_layout.py` → `Layout.h`).
 
 ## Nouveautés v1.4
 

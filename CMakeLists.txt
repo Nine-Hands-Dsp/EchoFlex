@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.22)
 set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64" CACHE STRING "")
 set(CMAKE_OSX_DEPLOYMENT_TARGET "10.13" CACHE STRING "")
 
-project(ECHOFLEX VERSION 1.5.2 LANGUAGES C CXX)
+project(ECHOFLEX VERSION 2.0.0 LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -25,7 +25,7 @@ juce_add_plugin(Echoflex
     PLUGIN_CODE                 Ecfx
     FORMATS                     VST3
     PRODUCT_NAME                "Echoflex"
-    VERSION                     1.5.2
+    VERSION                     2.0.0
     IS_SYNTH                    FALSE
     NEEDS_MIDI_INPUT            TRUE
     NEEDS_MIDI_OUTPUT           FALSE
@@ -33,15 +33,24 @@ juce_add_plugin(Echoflex
     EDITOR_WANTS_KEYBOARD_FOCUS FALSE
     COPY_PLUGIN_AFTER_BUILD     FALSE
     VST3_CATEGORIES             "Fx" "Delay"
+    DESCRIPTION                 "Tape echo (Dunlop EP103 Echoplex Delay model) - single pedal format"
 )
 
-juce_add_binary_data(EchoflexData SOURCES background.jpg knob_strip.png)
+# visuel integre au plugin (aucun fichier externe a l'execution)
+juce_add_binary_data(EchoflexData SOURCES
+    background.png knob_strip.png knob_blur1.png knob_blur2.png
+    led_on_red.png led_on_amber.png led_on_green.png glow_red.png glow_amber.png glow_green.png fs_refl.png
+    Poppins-Regular.ttf Poppins-Medium.ttf Poppins-Bold.ttf NineHandsLogo.svg)
 set_target_properties(EchoflexData PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
 
 target_sources(Echoflex PRIVATE
     PluginProcessor.cpp
     PluginEditor.cpp
 )
+
+if(MSVC)
+  target_compile_options(Echoflex PRIVATE /utf-8)
+endif()
 
 target_compile_definitions(Echoflex PUBLIC
     JUCE_WEB_BROWSER=0
