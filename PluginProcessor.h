@@ -166,6 +166,9 @@ public:
     static juce::StringArray syncNames();
 
     // Informations pour l'interface
+    std::atomic<bool> midiFsMomentary { false };  // footswitch MIDI : false = latching (127 on / 0 off), true = bascule a chaque appui
+    int prevFootValue = 0;
+    std::atomic<int> uiSizeIdx { -1 };   // taille de fenetre choisie au menu pour ce projet (-1 = taille par defaut)
     std::atomic<int>   currentPreset   { 0 };    // >=0 usine, 100+n utilisateur, -1 = modifie
     std::atomic<int>   lastMidiCC      { -1 };
     std::atomic<int>   lastMidiValue   { 0 };

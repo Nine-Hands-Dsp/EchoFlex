@@ -191,6 +191,7 @@ EchoflexAudioProcessorEditor::EchoflexAudioProcessorEditor (EchoflexAudioProcess
         logo = Drawable::createFromSVG (*xml);
     buildPrint();
     menuLnf.f = { regFace, medFace, boldFace };
+    glowPc = NineHandsGlow::percent (JucePlugin_Name);
     setLookAndFeel (&menuLnf);             // menus (et sous-menus) au design d'Octopus
 
     // clic droit sur une commande : MIDI Learn de cette commande en tete du menu
@@ -263,12 +264,13 @@ EchoflexAudioProcessorEditor::EchoflexAudioProcessorEditor (EchoflexAudioProcess
     const int defaultW = roundToInt ((float) defaultH * baseW / baseH);
     setResizable (true, true);
     setResizeLimits (defaultW, defaultH, roundToInt ((float) maxH * baseW / baseH), maxH);
+    hostLock.setLimits (defaultW, defaultH, roundToInt ((float) maxH * baseW / baseH), maxH);
     if (auto* cons = getConstrainer())
         cons->setFixedAspectRatio ((double) baseW / (double) baseH);
     setOpaque (true);                      // anti-gel : l'hote ne redessine jamais ce qui est derriere la fenetre
     setSize (defaultW, defaultH);
     // taille des nouvelles fenetres : celle choisie dans le menu « Default size (new windows) »
-    setScaledHeight (sizeHeight (WigaWindowSize::defaultIndex (JucePlugin_Name, numSizes)));
+    setScaledHeight (sizeHeight (NineHandsWindow::openIndex (JucePlugin_Name, proc.uiSizeIdx.load(), numSizes)));   // taille du projet, sinon taille par defaut
     rebuildCaches();
 
     lastTime = Time::getMillisecondCounterHiRes();
@@ -368,6 +370,7 @@ void EchoflexAudioProcessorEditor::setScaledHeight (int h)
 {
     h = jlimit ((int) defaultH, (int) maxH, h);
     setSize (roundToInt ((float) h * baseW / baseH), h);
+    hostLock.enforce();
 }
 
 Rectangle<int> EchoflexAudioProcessorEditor::scaled (Rectangle<float> r) const
@@ -503,7 +506,7 @@ void EchoflexAudioProcessorEditor::useSoftwareRenderer()
    #endif
 }
 
-void EchoflexAudioProcessorEditor::parentHierarchyChanged() { useSoftwareRenderer(); }
+void EchoflexAudioProcessorEditor::parentHierarchyChanged() { useSoftwareRenderer(); hostLock.track (*this); }
 void EchoflexAudioProcessorEditor::visibilityChanged()      { useSoftwareRenderer(); if (isShowing()) repaint(); }
 
 void EchoflexAudioProcessorEditor::askRepaint (Rectangle<int> r)
@@ -520,6 +523,13 @@ void EchoflexAudioProcessorEditor::timerCallback()
     lastTime = now;
 
     if (getPeer() != lastPeer || now - lastRendererCheckMs > 1000.0) { lastRendererCheckMs = now; useSoftwareRenderer(); }
+    if (now - lastGlowReadMs > 3000.0)       // clic droit > Glow intensity : commun a toutes les fenetres (jamais dans paint)
+    {
+        lastGlowReadMs = now;
+        const int pc = NineHandsGlow::percent (JucePlugin_Name);
+        if (pc != glowPc) setGlowPercent (pc);
+    }
+    hostLock.track (*this);
 
     if (resizeSettle > 0 && --resizeSettle == 0) rebuildCaches();
     else if (resizeSettle == 0 && now - lastScaleCheckMs > 250.0)
@@ -678,7 +688,7 @@ void EchoflexAudioProcessorEditor::drawLeds (Graphics& g)
         if (level[i] <= 0.003f) continue;
         // la facade recoit la lumiere de la LED (calque precalcule) puis la lentille allumee (photo)
         const Image& gl = glowS[i].isValid() ? glowS[i] : glow[i];
-        if (gl.isValid()) { g.setOpacity (jmin (1.0f, level[i] * glowMul[i])); g.drawImage (gl, glowRect[i]); }
+        if (gl.isValid()) { g.setOpacity (jmin (1.0f, level[i] * glowMul[i]) * glowAmt()); g.drawImage (gl, glowRect[i]); }   // halo : Glow intensity
         if (lens[i].isValid()) { g.setOpacity (level[i]); g.drawImage (lens[i], lensRect[i]); }
     }
     g.setOpacity (1.0f);
@@ -920,20 +930,6 @@ static String ccLabel (int cc)
     return cc >= 0 ? "CC " + String (cc) : String (CharPointer_UTF8 ("\xe2\x80\x94"));
 }
 
-void EchoflexAudioProcessorEditor::addLearnItems (PopupMenu& m, const Array<int>& learnItems)
-{
-    if (learnItems.isEmpty()) return;
-    for (int i : learnItems)
-    {
-        const String name = EchoflexAudioProcessor::learnInfo (i).name;
-        const int cc = proc.ccNum[i].load();
-        m.addItem (1000 + i, "MIDI Learn: " + name + " (" + ccLabel (cc) + ")", true, proc.learnTarget.load() == i);
-        m.addItem (1200 + i, "Clear MIDI: " + name, cc >= 0);
-    }
-    if (proc.learnTarget.load() >= 0)
-        m.addItem (1100, "Cancel MIDI learn");
-    m.addSeparator();
-}
 
 bool EchoflexAudioProcessorEditor::handleLearnResult (int r)
 {
@@ -959,62 +955,71 @@ bool EchoflexAudioProcessorEditor::handleLearnResult (int r)
     return true;
 }
 
-void EchoflexAudioProcessorEditor::showContextMenu (Array<int> learnItems)
+void EchoflexAudioProcessorEditor::addLearnItems (PopupMenu& m, const Array<int>& learnItems)
 {
-    auto raw = [this] (const char* id) { return proc.apvts.getRawParameterValue (id)->load(); };
-    PopupMenu menu;
-    if (learnItems.isEmpty())
-        NineHandsMenu::addHeader (menu, menuLnf.f, NineHandsMenu::icoPedal, Colour (0xffff4a36), "Echoflex", "Tape echo  v" + String (JucePlugin_VersionString));
-    else
-        NineHandsMenu::addHeader (menu, menuLnf.f, learnItems[0] == EchoflexAudioProcessor::lFoot ? NineHandsMenu::icoSwitch
-                                                    : learnItems[0] == EchoflexAudioProcessor::lTap ? NineHandsMenu::icoMidi : NineHandsMenu::icoKnob,
-                                  Colour (0xffff4a36), EchoflexAudioProcessor::learnInfo (learnItems[0]).name, "MIDI Learn");
-    addLearnItems (menu, learnItems);
-
+    if (learnItems.isEmpty()) return;
+    for (int i : learnItems)
     {
-        // Plugin size : taille de cette fenetre + taille par defaut des nouvelles fenetres
-        const char* names[numSizes] = { "60 %", "75 %", "100 %" };
-        const int def = WigaWindowSize::defaultIndex (JucePlugin_Name, numSizes);
-        PopupMenu sizes, defSizes;
-        for (int i = 0; i < numSizes; ++i)
-        {
-            sizes.addItem (1 + i, String (names[i]) + (i == def ? "  (default)" : ""), true, std::abs (getHeight() - sizeHeight (i)) <= 2);
-            defSizes.addItem (20 + i, names[i], true, i == def);
-        }
-        sizes.addSeparator();
-        sizes.addSubMenu ("Default size (new windows)", defSizes);
-        menu.addSubMenu ("Plugin size", sizes);
+        const String name = EchoflexAudioProcessor::learnInfo (i).name;
+        const int cc = proc.ccNum[i].load();
+        m.addItem (1000 + i, "MIDI Learn: " + name + " (" + ccLabel (cc) + ")", true, proc.learnTarget.load() == i);
+        m.addItem (1200 + i, "Clear MIDI: " + name, cc >= 0);
     }
-    menu.addSeparator();
+    if (proc.learnTarget.load() >= 0)
+        m.addItem (1100, "Cancel MIDI learn");
+    m.addSeparator();
+}
 
+void EchoflexAudioProcessorEditor::setGlowPercent (int pc)
+{
+    glowPc = NineHandsGlow::sanitize (pc);
+    drawnLed = drawnAge = drawnSync = -1.0f;   // le timer redessine les LED
+}
+
+PopupMenu EchoflexAudioProcessorEditor::buildContextMenu (int learnIdx)
+{
+    using namespace NineHandsMenu;
+    using P = EchoflexAudioProcessor;
+    auto raw = [this] (const char* id) { return proc.apvts.getRawParameterValue (id)->load(); };
+    auto ccText = [this] (int i) { const int cc = proc.ccNum[i].load(); return cc >= 0 ? "CC " + String (cc) : String ("not assigned"); };
+    const int lt = proc.learnTarget.load();
+    const Colour accent (0xffff4a36);
+    PopupMenu menu;
+    menu.setLookAndFeel (&menuLnf);
+    if (learnIdx >= 0)
+    {
+        // menu d'une commande (tronc commun) : en-tete, MIDI Learn, Clear MIDI, Cancel MIDI learn
+        const String name = P::learnInfo (learnIdx).name;
+        addHeader (menu, menuLnf.f, learnIdx == P::lFoot || learnIdx == P::lFootToggle ? icoSwitch : learnIdx == P::lTap ? icoMidi : icoKnob,
+                   accent, name, "MIDI: " + ccText (learnIdx));
+        menu.addItem (1000 + learnIdx, "MIDI Learn: " + name, true, lt == learnIdx);
+        menu.addItem (1200 + learnIdx, "Clear MIDI: " + name, proc.ccNum[learnIdx].load() >= 0);
+        menu.addItem (1100, "Cancel MIDI learn", lt >= 0);
+        return menu;
+    }
+
+    addHeader (menu, menuLnf.f, icoPedal, accent, "Echoflex", "Tape echo  v" + String (JucePlugin_VersionString));
     PopupMenu factory;
-    for (int i = 0; i < EchoflexAudioProcessor::getNumFactoryPresets(); ++i)
-        factory.addItem (100 + i, String (i + 1) + ". " + EchoflexAudioProcessor::getFactoryPreset (i).name,
-                         true, proc.currentPreset.load() == i);
+    for (int i = 0; i < P::getNumFactoryPresets(); ++i)
+        factory.addItem (100 + i, String (i + 1) + ". " + P::getFactoryPreset (i).name, true, proc.currentPreset.load() == i);
     menu.addSubMenu ("Factory presets", factory);
     PopupMenu load, save;
     for (int slot = 1; slot <= 9; ++slot)
     {
         const bool exists = proc.hasUserPreset (slot);
-        load.addItem (200 + slot, "User " + String (slot) + (exists ? "" : "  (empty)"), exists,
-                      proc.currentPreset.load() == 100 + slot);
+        load.addItem (200 + slot, "User " + String (slot) + (exists ? "" : "  (empty)"), exists, proc.currentPreset.load() == 100 + slot);
         save.addItem (300 + slot, "User " + String (slot) + (exists ? "  (overwrite)" : ""));
     }
     menu.addSubMenu ("Load user preset", load);
     menu.addSubMenu ("Save user preset", save);
     menu.addSeparator();
 
-    PopupMenu age;
-    age.addItem (50, "Age on (click VOLUME)", true, raw ("ageOn") > 0.5f);
-    age.addItem (51, proc.ageEdit.load() ? "Lock Age setting" : "Set Age (hold VOLUME 2 s)");
-    menu.addSubMenu ("Age", age);
-
     const int src = roundToInt (raw ("timeSrc"));
     PopupMenu timeMenu;
     timeMenu.addItem (60, "DELAY knob (65 - 750 ms)", true, src == 0);
     timeMenu.addItem (61, "Tap tempo (" + String (roundToInt (raw ("tapMs"))) + " ms) - click TAP", true, src == 1);
     PopupMenu sync;
-    const auto names = EchoflexAudioProcessor::syncNames();
+    const auto names = P::syncNames();
     for (int i = 0; i < names.size(); ++i)
         sync.addItem (70 + i, names[i], true, src == 2 && roundToInt (raw ("syncDiv")) == i);
     timeMenu.addSubMenu ("Sync to DAW tempo (click DELAY / SYNC)", sync, true, nullptr, src == 2);
@@ -1029,42 +1034,55 @@ void EchoflexAudioProcessorEditor::showContextMenu (Array<int> learnItems)
     settings.addSeparator();
     settings.addItem (44, "Mono (EP103 default)",    true, raw ("channels") < 0.5f);
     settings.addItem (45, "Stereo",                  true, raw ("channels") > 0.5f);
-    menu.addSubMenu ("Startup settings", settings);
+    menu.addSubMenu ("Settings", settings);
     menu.addSeparator();
 
     PopupMenu midi;
-    for (int i = 0; i < EchoflexAudioProcessor::numLearn; ++i)
-        midi.addItem (1000 + i, "Learn: " + String (EchoflexAudioProcessor::learnInfo (i).name)
-                                  + " (" + ccLabel (proc.ccNum[i].load()) + ")", true, proc.learnTarget.load() == i);
+    midi.addSectionHeader ("MIDI Learn");
+    for (int i = 0; i < P::numLearn; ++i)
+        midi.addItem (1000 + i, "Learn: " + String (P::learnInfo (i).name) + "  (" + ccText (i) + ")", true, lt == i);
     midi.addSeparator();
-    if (proc.learnTarget.load() >= 0)
-        midi.addItem (1100, "Cancel MIDI learn");
+    midi.addItem (1100, "Cancel MIDI learn", lt >= 0);
     midi.addItem (1101, "Clear all MIDI assignments");
     midi.addSeparator();
-    midi.addItem (908, "Program Change 1-" + String (EchoflexAudioProcessor::getNumFactoryPresets()) + "  Factory presets", false);
+    NineHandsWindow::addMidiFootswitchMode (midi, ! proc.midiFsMomentary.load());
+    midi.addSeparator();
+    NineHandsWindow::addProgramChangeInfo (midi);
     menu.addSubMenu ("MIDI", midi);
-
     menu.addSeparator();
-    menu.addItem (999, "Echoflex delay v" + String (JucePlugin_VersionString) + " - NINE HANDS | DSP", false);
 
-    menu.setLookAndFeel (&menuLnf);
+    const char* sizeNames[numSizes] = { "60 %", "75 %", "100 %" };
+    const int heights[numSizes] = { sizeHeight (0), sizeHeight (1), sizeHeight (2) };
+    menu.addSubMenu ("Plugin size", NineHandsWindow::sizeMenu (JucePlugin_Name, numSizes, sizeNames, heights, getHeight()));
+    menu.addSubMenu ("Glow intensity", NineHandsWindow::glowMenu (glowPc));
+    return menu;
+}
+
+void EchoflexAudioProcessorEditor::showContextMenu (Array<int> learnItems)
+{
+    auto menu = buildContextMenu (learnItems.isEmpty() ? -1 : learnItems[0]);
     menu.showMenuAsync (PopupMenu::Options().withMousePosition(),       // menu clic droit : toujours la ou l'on clique
         [safe = Component::SafePointer<EchoflexAudioProcessorEditor> (this)] (int r)
         {
             if (safe == nullptr || r == 0 || r == 9001) return;
             auto& ed = *safe;
             if (ed.handleLearnResult (r)) return;
-            if      (r >= 1 && r < 1 + numSizes) ed.setScaledHeight (ed.sizeHeight (r - 1));
-            else if (r >= 20 && r < 20 + numSizes)
+            int inst = ed.proc.uiSizeIdx.load();
+            const int sz = NineHandsWindow::handleSize (r, JucePlugin_Name, numSizes, inst);
+            if (sz >= 0) { ed.proc.uiSizeIdx = inst; ed.setScaledHeight (ed.sizeHeight (sz)); return; }
+            if (const int pc = NineHandsWindow::handleGlow (r, JucePlugin_Name))
             {
-                WigaWindowSize::setDefaultIndex (JucePlugin_Name, r - 20);   // toutes les nouvelles fenetres de ce plugin
-                ed.setScaledHeight (ed.sizeHeight (r - 20));                // et cette fenetre tout de suite
+                ed.setGlowPercent (pc);
+                ed.learnMsg = "Glow  " + String (pc) + " %";
+                ed.learnMsgUntil = Time::getMillisecondCounterHiRes() + 1500.0;
+                ed.showStatus();
+                return;
             }
+            if      (r == NineHandsWindow::idLatch)     ed.proc.midiFsMomentary = false;
+            else if (r == NineHandsWindow::idMomentary) ed.proc.midiFsMomentary = true;
             else if (r == 40 || r == 41) ed.setParamValue ("bypassMode", r == 41 ? 1.0f : 0.0f);
             else if (r == 42 || r == 43) ed.setParamValue ("mix",        r == 43 ? 1.0f : 0.0f);
             else if (r == 44 || r == 45) ed.setParamValue ("channels",   r == 45 ? 1.0f : 0.0f);
-            else if (r == 50) ed.toggleAge();
-            else if (r == 51) ed.setAgeEdit (! ed.proc.ageEdit.load());
             else if (r == 60) ed.setParamValue ("timeSrc", 0.0f);
             else if (r == 61) ed.setParamValue ("timeSrc", 1.0f);
             else if (r >= 70 && r < 80)

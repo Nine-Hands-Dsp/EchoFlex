@@ -348,7 +348,11 @@ void EchoflexAudioProcessor::handleMidi (juce::MidiBuffer& midi)
                     case lVolume:  setParamFromAudio ("volume",  knobValue); currentPreset = -1; break;
                     case lAge:     setParamFromAudio ("age",     knobValue); currentPreset = -1; break;
                     case lAgeOn:   setParamFromAudio ("ageOn",  v >= 64 ? 1.0f : 0.0f); break;
-                    case lFoot:    setParamFromAudio ("active", v >= 64 ? 1.0f : 0.0f); break;
+                    case lFoot:
+                        if (! midiFsMomentary.load (std::memory_order_relaxed)) setParamFromAudio ("active", v >= 64 ? 1.0f : 0.0f);   // latching
+                        else if (v >= 64 && prevFootValue < 64) setParamFromAudio ("active", queuedOrCurrent ("active", pActive) > 0.5f ? 0.0f : 1.0f);
+                        prevFootValue = v;
+                        break;
                     case lTap:
                         if (v >= 64 && prevTapCC < 64)   // instant du TAP note ici, calcul fait par le timer
                             pendingTapMs.store (juce::Time::getMillisecondCounterHiRes());
@@ -709,6 +713,8 @@ void EchoflexAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
 {
     auto state = apvts.copyState();
     state.setProperty ("currentPreset", currentPreset.load(), nullptr);
+    state.setProperty ("uiSize", uiSizeIdx.load(), nullptr);
+    state.setProperty ("midiFsMomentary", midiFsMomentary.load(), nullptr);
     for (int i = 0; i < numLearn; ++i)                 // assignations MIDI Learn
         state.setProperty (learnInfo (i).key, ccNum[i].load(), nullptr);
     if (auto xml = state.createXml())
@@ -723,6 +729,8 @@ void EchoflexAudioProcessor::setStateInformation (const void* data, int sizeInBy
         {
             auto state = juce::ValueTree::fromXml (*xml);
             currentPreset = (int) state.getProperty ("currentPreset", 0);
+            uiSizeIdx = juce::jlimit (-1, 2, (int) state.getProperty ("uiSize", -1));
+            midiFsMomentary = (bool) state.getProperty ("midiFsMomentary", false);
             // assignations MIDI Learn : aucune par defaut. Un ancien projet dont la table est
             // exactement l'ancienne table d'usine (20 a 28, ou proprietes absentes) est vide.
             int loaded[numLearn];

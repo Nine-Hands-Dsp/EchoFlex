@@ -4,6 +4,7 @@
 #include <juce_gui_basics/juce_gui_basics.h>
 #include "Layout.h"
 #include "NineHandsMenu.h"
+#include "NineHandsWindow.h"
 
 //==============================================================================
 // POTARD Echoflex : filmstrip de 128 positions rendue d'apres la photo (lumiere fixe en haut a gauche).
@@ -143,6 +144,13 @@ private:
     void stepSyncDivision (int delta);
     void stepPreset (int delta);
 
+public:
+    juce::PopupMenu buildContextMenu (int learnIdx = -1);   // menu clic droit (aussi pour l'outil de controle des menus)
+    void setGlowPercent (int pc);                            // clic droit > Glow intensity
+private:
+    int glowPc = 100;                      // clic droit > Glow intensity : lumiere des LED sur la facade (25 a 100 %)
+    double lastGlowReadMs = 0.0;
+    float glowAmt() const { return (float) glowPc / 100.0f; }
     void showContextMenu (juce::Array<int> learnItems = {});
     void showSyncMenu();
     void showPresetMenu();
@@ -159,6 +167,7 @@ private:
     EchoflexAudioProcessor& proc;
     RightClickForwarder rightClickFwd;
     NineHandsMenu::MenuLnf menuLnf;        // menus clic droit au design d'Octopus
+    NineHandsWindow::HostLock hostLock;    // fenetre du DAW : jamais sous 60 %, jamais au-dela de 150 %
 
     // images d'origine et caches a la taille de l'ecran (reconstruits par le timer seulement)
     juce::Image background, bgScaled;
